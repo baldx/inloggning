@@ -27,6 +27,10 @@ app.get('/login', (req, res) => {//loads /login url for login.html
     res.sendFile(path.join(__dirname, "/login.html"));
 })
 
+app.get('/signup', (req, res) => {//loads /login url for login.html
+    res.sendFile(path.join(__dirname, "/signup.html"));
+})
+
 app.use(bodyParser.urlencoded({extended:true})); //middleware for bodyparser
 
 
@@ -37,9 +41,17 @@ app.post('/login', (req, res) => { //post info from login page
     const validUser = savedUsers.find(e => e.username === userName && e.password === e.password) //returns true if password and username exist
 
     if (validUser) { //if statements if exists
-        res.send("Successfully logged in")
+        res.send("Successfully logged in");
     } else {
         res.send("Access denied");
-        
     }
+})
+
+app.post('/signup', (req, res) => { //post info from login page
+    const userName = req.body.name; //fetch name
+    const userPassword = req.body.password; //fetch password
+
+    savedUsers.push({username: userName, password: userPassword});//appends new users account
+
+    res.sendFile(path.join(__dirname, "/message.html")); //display the page
 })
